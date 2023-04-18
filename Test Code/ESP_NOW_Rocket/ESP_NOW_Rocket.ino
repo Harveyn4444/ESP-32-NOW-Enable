@@ -9,6 +9,7 @@
 uint8_t broadcastAddress[] = {0x34, 0x86, 0x5D, 0x3B, 0x1C, 0x34}; //This is being sent from the rocket
 
 char Rocketdata[32];
+String ReceivedText; 
 
 typedef struct struct_message {
   char Station[32];
@@ -58,6 +59,7 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   //The struct read  
   Serial.println( StationData.Station);
   Serial.println();
+  ReceivedText = String(StationData.Station);
 }
 
 
@@ -96,6 +98,7 @@ void loop() {
   
 //if stationdata is "ARM"  
 //send "Rocket is armed"
+/*
   if(StationData.Station == "ARM"){
     strcpy(RocketData.Rocket, "Rocket is ARMED");
   } else if (StationData.Station == "DISARM"){
@@ -104,7 +107,16 @@ void loop() {
     strcpy(RocketData.Rocket, "TEST");
     Serial.println("Char Pass Error");
   }
-    
+*/
+  if(ReceivedText == "ARM"){
+    strcpy(RocketData.Rocket, "Rocket is ARMED");
+  } else if (ReceivedText == "DISARM"){
+    strcpy(RocketData.Rocket, "Rocket is DISARM");
+  } else {
+    strcpy(RocketData.Rocket, "TEST");
+    Serial.println("Char Pass Error");
+  }
+
   // Send message via ESP-NOW
   esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &RocketData, sizeof(RocketData)); 
   if (result == ESP_OK) {
