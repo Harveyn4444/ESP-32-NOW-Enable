@@ -56,10 +56,11 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   Serial.print("Bytes received: ");
   Serial.println(len);
   //The struct read  
-  //Rocketdata = RocketData.Rocket;
   Serial.println(RocketData.Rocket);
+  Serial.println();
 }
 
+bool flag = true;
 
 void setup() {
   Serial.begin(115200);
@@ -93,7 +94,15 @@ void setup() {
 }
 
 void loop() {
-  strcpy(StationData.Station, "ARM");
+
+  if (flag == true){  
+   strcpy(StationData.Station, "ARM");
+   flag = false;
+  } else {
+  strcpy(StationData.Station, "DISARM");
+  flag = true;    
+  }
+
   // Send message via ESP-NOW
   esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &StationData, sizeof(StationData));
    if (result == ESP_OK) {
