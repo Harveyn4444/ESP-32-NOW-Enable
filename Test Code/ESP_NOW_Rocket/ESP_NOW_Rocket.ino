@@ -98,16 +98,6 @@ void loop() {
   
 //if stationdata is "ARM"  
 //send "Rocket is armed"
-/*
-  if(StationData.Station == "ARM"){
-    strcpy(RocketData.Rocket, "Rocket is ARMED");
-  } else if (StationData.Station == "DISARM"){
-    strcpy(RocketData.Rocket, "Rocket is DISARM");
-  } else {
-    strcpy(RocketData.Rocket, "TEST");
-    Serial.println("Char Pass Error");
-  }
-*/
   if(ReceivedText == "ARM"){
     strcpy(RocketData.Rocket, "Rocket is ARMED");
   } else if (ReceivedText == "DISARM"){
